@@ -1,10 +1,10 @@
 # Algorithms-and-programming-1
-Works carried out in the subject Algorithms and Programming 1 in the Faculty of Engineering (UBA).
+This repository contains the works carried out in the subject "Algorithms and Programming 1" at the Faculty of Engineering (UBA).
 
-- TP1: Sokoban. The first part of the practical work where the logic of the game that would be used in the following parts is worked on.
+- TP1: Sokoban. The first assessment required the student to establish the logic of the Sokoban game, which would be used in subsequent evaluations.
 
-- EX2: five in line. An introductory exercise to learn how to use the Gamelib library provided by the course teacher and that would be used in subsequent work.
+- EX2: five in line. An introductory exercise designed to teach students how to use the Gamelib library provided by the course instructor. This library would be used in subsequent assignments.
 
-- TP2: Sokoban++. Second part of the practical work where you already work with a graphical interface using Gamelib and where, using the logic of the first part, you have to be able to play and pass to the next level. This programme reads another file which describes a great variety of different levels.
+- TP2: Sokoban++. The second part of the assessment involved working with a graphical interface using Gamelib, a public graphics library. Building upon the logic developed in the first part, the objective was to implement the ability to play multiple levels. The program reads a file that describes various levels.
 
-- TP3: Sokoban with graphics. Third and last part of the practical work where already having logic and graphical interface, it is necessary to add quite useful functionalities such as the possibility of using hints and undo/redo movements giving the player more options to pass the levels.
+- TP3: Sokoban with graphics. The third and final part of the assessment required enhancing the previous logic and graphical interface of Sokoban. Additional functionalities were added, such as the ability to use hints and undo/redo movements, providing players with more options to successfully complete levels.
