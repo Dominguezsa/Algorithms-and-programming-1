@@ -15,3 +15,4 @@ Escape = SALIR
 b = DESHACER
 t = REHACER
 p = PISTA
+h = HELP

@@ -1,4 +1,4 @@
-import gamelib
+from Library import gamelib
 
 ANCHO_VENTANA = 300
 ALTO_VENTANA = 330
@@ -26,7 +26,6 @@ def juego_actualizar(juego, x, y):
     # defino las coordenadas de las celdas a las que se NO puede hacer click
     if x < LIM_IZQ or x >= LIM_DER or y < LIM_ARRIBA or y >= LIM_ABAJO:
         return juego
-
     x = (x - 25) // LADO
     y = (y - 30) // LADO
     # cant es la cantidad de espacios en blanco
@@ -44,6 +43,29 @@ def juego_actualizar(juego, x, y):
         return juego
     else:
         return juego
+
+
+def misma_ficha(i, j, di, dj, grilla):
+    return all(grilla[i][j] == grilla[i + k * di][j + k * dj] != " " for k in range(5))
+
+
+def juego_ganado(grilla):
+    # Comprobación de filas y columnas
+    for i in range(len(grilla)):
+        for j in range(len(grilla[i])):
+            if j + 4 < len(grilla[i]) and misma_ficha(i, j, 0, 1, grilla):
+                return f'Jugador {grilla[i][j]}', True
+            elif i + 4 < len(grilla) and misma_ficha(i, j, 1, 0, grilla):
+                return f'Jugador {grilla[i][j]}', True
+
+            # Comprobación de diagonales
+            if i + 4 < len(grilla) and j + 4 < len(grilla[i]) and misma_ficha(i, j, 1, 1, grilla):
+                return f'Jugador {grilla[i][j]}', True
+            elif i + 4 < len(grilla) and j >= 4 and misma_ficha(i, j, 1, -1, grilla):
+                return f'Jugador {grilla[i][j]}', True
+
+    # Si no hay ganador
+    return None, False
 
 
 def juego_mostrar(juego):
@@ -112,6 +134,9 @@ def main():
             # El usuario presionó un botón del mouse
             x, y = ev.x, ev.y  # averiguamos la posición donde se hizo click
             juego = juego_actualizar(juego, x, y)
+            if juego_ganado(juego)[1]:
+                print("termino el juego")
+                break
 
 
 gamelib.init(main)
