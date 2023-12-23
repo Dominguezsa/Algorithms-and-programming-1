@@ -1,4 +1,4 @@
-from SokobanGame.ADTs.Node import Node
+from SokobanGame.ADTs.node import Node
 
 
 class Stack:

@@ -2,7 +2,7 @@ from Library.gamelib import *
 from SokobanGame.View.Constants import IMAGE_SIZE, diccionario_caracteres
 
 
-def juego_mostrar(juego, indice, ancho, alto, pistas, mostrar_pistas):
+def display_game(juego, indice, ancho, alto, pistas, mostrar_pistas):
     """Actualiza la ventana"""
     medio = ancho // 2  # medio de la ventana en el eje x
     columnas_grilla = len(juego[0])
@@ -13,9 +13,9 @@ def juego_mostrar(juego, indice, ancho, alto, pistas, mostrar_pistas):
     vertical = (alto - len(juego) * IMAGE_SIZE) // 2  # "vertical" es el espacio en el eje y que hay entre el borde
     # de la ventana y la grilla
     draw_text('SokoBan', 50, 20)
-    draw_text(f'Nivel: {indice + 1}', ancho - 50, 20)
+    draw_text(f'Level: {indice + 1}', ancho - 50, 20)
     if not pistas.esta_vacia():
-        draw_text('HAY PISTA!', medio, vertical - 15)
+        draw_text('CLUE!', medio, vertical - 15)
     # mostar imagenes:
     for i in juego:
         for j in i:
@@ -33,23 +33,23 @@ def juego_mostrar(juego, indice, ancho, alto, pistas, mostrar_pistas):
     if mostrar_pistas:
         draw_rectangle((ancho - columnas_grilla * IMAGE_SIZE) // 2, (alto - len(juego) * IMAGE_SIZE) // 2,
                        max_horizontal, vertical)
-        draw_text('P: pista', medio, medio_vertical - 50, fill="black")
-        draw_text('R: reiniciar', medio, medio_vertical - 25, fill="black")
-        draw_text('ESC: salir', medio, medio_vertical, fill="black")
-        draw_text('T: rehacer', medio, medio_vertical + 25, fill="black")
-        draw_text('B: deshacer', medio, medio_vertical + 50, fill="black")
+        draw_text('P: Clue', medio, medio_vertical - 50, fill="black")
+        draw_text('R: Restart', medio, medio_vertical - 25, fill="black")
+        draw_text('ESC: Exit', medio, medio_vertical, fill="black")
+        draw_text('T: Redo', medio, medio_vertical + 25, fill="black")
+        draw_text('B: Undo', medio, medio_vertical + 50, fill="black")
 
 
-def mostrar_eleccion(ancho, alto):
+def show_options(ancho, alto):
     draw_begin()
-    draw_text('Siguiente', ancho * 0.25, alto * 0.5, size=18, fill='green')
+    draw_text('Next Level', ancho * 0.25, alto * 0.5, size=18, fill='green')
     draw_text('Exit', ancho * 0.75, alto * 0.5, size=18, fill='red')
-    draw_text('Clickea:', ancho * 0.5, 20, )
+    draw_text('Click:', ancho * 0.5, 20, )
     draw_line(ancho // 2, 35, ancho // 2, alto, width=2, fill='white')
     draw_end()
 
 
-def find_ancho_alto(juego):
+def find_height_and_width(juego):
     columnas_grilla = len(juego[0])
     ancho = columnas_grilla * IMAGE_SIZE + (columnas_grilla * IMAGE_SIZE) * 0.5
     alto = len(juego) * IMAGE_SIZE + len(juego) * IMAGE_SIZE * 0.4

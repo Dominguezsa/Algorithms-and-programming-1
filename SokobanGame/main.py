@@ -1,11 +1,11 @@
 import Model.game_logic as soko
-from ADTs.Stack import Stack
+from ADTs.stack import Stack
 import Library.gamelib as gamelib
 from Model.general import get_stacks, manage_stacks
-from Model.Find_Solution import buscar_solucion
-from Model.manejo_archivos import teclas, niveles_en_lista, obtener_movimientos_validos
-from Model.Constantes import INDICE_INICIAL, PATH_LEVELS, PATH_KEYS
-from View.Vista import juego_mostrar, mostrar_eleccion, find_ancho_alto
+from Model.find_solution import buscar_solucion
+from Model.manage_files import teclas, niveles_en_lista, obtener_movimientos_validos
+from Model.constants import INDICE_INICIAL, PATH_LEVELS, PATH_KEYS
+from View.View import display_game, show_options, find_height_and_width
 
 
 def main():
@@ -15,13 +15,13 @@ def main():
     movimientos_validos = obtener_movimientos_validos(diccionario_teclas)
     juego = soko.crear_grilla(niveles[indice])
     pila_deshacer, pila_rehacer, pistas = get_stacks(juego)
-    ancho, alto = find_ancho_alto(juego)
+    ancho, alto = find_height_and_width(juego)
     gamelib.resize(ancho, alto)
     mostrar_letras = False
 
     while gamelib.is_alive():
         gamelib.draw_begin()
-        juego_mostrar(juego, indice, ancho, alto, pistas, mostrar_letras)
+        display_game(juego, indice, ancho, alto, pistas, mostrar_letras)
         gamelib.draw_end()
         ev = gamelib.wait(gamelib.EventType.KeyPress)
         try:
@@ -67,7 +67,7 @@ def main():
         except ValueError:
             continue
         if soko.juego_ganado(juego):
-            mostrar_eleccion(ancho, alto)
+            show_options(ancho, alto)
             ev = gamelib.wait(gamelib.EventType.ButtonPress)
             if not ev:
                 break
@@ -76,7 +76,7 @@ def main():
                 try:
                     juego = soko.crear_grilla(niveles[indice])
                     pila_deshacer, pila_rehacer, pistas = get_stacks(juego)
-                    ancho, alto = find_ancho_alto(juego)
+                    ancho, alto = find_height_and_width(juego)
                     gamelib.resize(ancho, alto)
                     continue
                 except IndexError:

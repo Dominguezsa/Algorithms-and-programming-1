@@ -1,4 +1,4 @@
-from SokobanGame.Model.Constantes import *
+from SokobanGame.Model.constants import *
 
 
 IMAGE_SIZE = 32

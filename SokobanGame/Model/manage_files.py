@@ -1,4 +1,4 @@
-from SokobanGame.Model.Constantes import coords_str_int, PATH_KEYS, PATH_LEVELS
+from SokobanGame.Model.constants import coords_str_int, PATH_KEYS, PATH_LEVELS
 
 
 def teclas(archivo):

@@ -1,5 +1,5 @@
 
-from SokobanGame.ADTs.Stack import Stack
+from SokobanGame.ADTs.stack import Stack
 
 
 def get_stacks(juego):  # return ancho, alto, pila2, pistas

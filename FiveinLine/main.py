@@ -1,22 +1,25 @@
 from Library import gamelib
 
 ANCHO_VENTANA = 300
-ALTO_VENTANA = 330
+ALTO_VENTANA = 350
 LIM_IZQ = 25
 LIM_DER = 275
 LIM_ARRIBA = 30
 LIM_ABAJO = 280
 LADO = 25
+PLAYER1 = "O"
+PLAYER2 = "X"
+EMPTY = " "
 
 
-def juego_crear():
+def create_game():
     """Inicializar el estado del juego
        Devuelve una lista de listas con 10 filas y 10 columnas
        con elemntos vacíos (espacios en blanco)"""
     return [[" " for i in range(10)] for j in range(10)]
 
 
-def juego_actualizar(juego, x, y):
+def update_game(juego, x, y):
     """Actualizar el estado del juego
     x e y son las coordenadas (en pixels) donde el usuario hizo click.
     Esta función determina si esas coordenadas corresponden a una celda
@@ -32,46 +35,43 @@ def juego_actualizar(juego, x, y):
     cant = 0
     for i in juego:
         for j in i:
-            if j == " ":
+            if j == EMPTY:
                 cant += 1
-
-    if juego[y][x] == " " and cant % 2 == 0:
-        juego[y][x] = "O"
+    if juego[y][x] == EMPTY and cant % 2 == 0:
+        juego[y][x] = PLAYER1
         return juego
-    elif juego[y][x] == " " and cant % 2 != 0:
-        juego[y][x] = "X"
+    elif juego[y][x] == EMPTY and cant % 2 != 0:
+        juego[y][x] = PLAYER2
         return juego
     else:
         return juego
 
 
-def misma_ficha(i, j, di, dj, grilla):
-    return all(grilla[i][j] == grilla[i + k * di][j + k * dj] != " " for k in range(5))
-
-
-def juego_ganado(grilla):
+def there_is_a_winner(grilla):
     # Comprobación de filas y columnas
     for i in range(len(grilla)):
         for j in range(len(grilla[i])):
-            if j + 4 < len(grilla[i]) and misma_ficha(i, j, 0, 1, grilla):
-                return f'Jugador {grilla[i][j]}', True
-            elif i + 4 < len(grilla) and misma_ficha(i, j, 1, 0, grilla):
-                return f'Jugador {grilla[i][j]}', True
-
+            if j + 4 < len(grilla[i]) and same_player(i, j, 0, 1, grilla):
+                return grilla[i][j], True
+            elif i + 4 < len(grilla) and same_player(i, j, 1, 0, grilla):
+                return grilla[i][j], True
             # Comprobación de diagonales
-            if i + 4 < len(grilla) and j + 4 < len(grilla[i]) and misma_ficha(i, j, 1, 1, grilla):
-                return f'Jugador {grilla[i][j]}', True
-            elif i + 4 < len(grilla) and j >= 4 and misma_ficha(i, j, 1, -1, grilla):
-                return f'Jugador {grilla[i][j]}', True
-
+            if i + 4 < len(grilla) and j + 4 < len(grilla[i]) and same_player(i, j, 1, 1, grilla):
+                return grilla[i][j], True
+            elif i + 4 < len(grilla) and j >= 4 and same_player(i, j, 1, -1, grilla):
+                return grilla[i][j], True
     # Si no hay ganador
     return None, False
 
 
-def juego_mostrar(juego):
+def same_player(i, j, di, dj, grilla):
+    return all(grilla[i][j] == grilla[i + k * di][j + k * dj] != EMPTY for k in range(5))
+
+
+def display_game(juego, ganado):
     """Actualizar la ventana"""
     # titulo
-    gamelib.draw_text('5 en línea', 150, 15, size=14)
+    gamelib.draw_text('Five In Line', 150, 15, size=14)
     # cant es la cantidad de espacios en blanco
     cant = 0
     for i in juego:
@@ -79,9 +79,9 @@ def juego_mostrar(juego):
             if j == " ":
                 cant += 1
     if cant % 2 == 0:
-        gamelib.draw_text('Turno de: O', 150, 300, size=12, italic=True)
+        gamelib.draw_text(f'Turn: {PLAYER1}', 150, 300, size=12, italic=True)
     else:
-        gamelib.draw_text('Turno de: X', 150, 300, size=12, italic=True)
+        gamelib.draw_text(f'Turn: {PLAYER2}', 150, 300, size=12, italic=True)
 
     # cuadrado 250x250
     gamelib.draw_rectangle(LIM_IZQ, LIM_ABAJO, LIM_DER, LIM_ARRIBA, outline='white', fill='black')
@@ -96,24 +96,25 @@ def juego_mostrar(juego):
     # celdas con contenido
     for i in range(10):
         for j in range(10):
-            if juego[i][j] == "X":
-                gamelib.draw_text('X', 37.5 + (LADO * j), 42.5 + (LADO * i))
-            elif juego[i][j] == "O":
-                gamelib.draw_text('O', 37.5 + (LADO * j), 42.5 + (LADO * i))
+            if juego[i][j] == PLAYER1:
+                gamelib.draw_text(f'{PLAYER1}', 37.5 + (LADO * j), 42.5 + (LADO * i))
+            elif juego[i][j] == PLAYER2:
+                gamelib.draw_text(f'{PLAYER2}', 37.5 + (LADO * j), 42.5 + (LADO * i))
+    if ganado[0]:
+        gamelib.draw_text(f'Game over, "{ganado[1]}" wins', 150, 325)
 
 
 def main():
-    juego = juego_crear()
-
+    juego = create_game()
+    game_won = False, None
     # Ajustar el tamaño de la ventana
     gamelib.resize(ANCHO_VENTANA, ALTO_VENTANA)
-
     # Mientras la ventana esté abierta:
     while gamelib.is_alive():
         # Todas las instrucciones que dibujen algo en la pantalla deben ir
         # entre `draw_begin()` y `draw_end()`:
         gamelib.draw_begin()
-        juego_mostrar(juego)
+        display_game(juego, game_won)
         gamelib.draw_end()
 
         # Terminamos de dibujar la ventana, ahora procesamos los eventos (si el
@@ -125,18 +126,21 @@ def main():
         if not ev:
             # El usuario cerró la ventana.
             break
-
         if ev.type == gamelib.EventType.KeyPress and ev.key == 'Escape':
             # El usuario presionó la tecla Escape, cerrar la aplicación.
             break
-
         if ev.type == gamelib.EventType.ButtonPress:
             # El usuario presionó un botón del mouse
-            x, y = ev.x, ev.y  # averiguamos la posición donde se hizo click
-            juego = juego_actualizar(juego, x, y)
-            if juego_ganado(juego)[1]:
-                print("termino el juego")
-                break
+            if game_won[0]:
+                juego = create_game()
+                game_won = False, None
+                display_game(juego, game_won)
+            else:
+                x, y = ev.x, ev.y  # averiguamos la posición donde se hizo click
+                juego = update_game(juego, x, y)
+                someone_won = there_is_a_winner(juego)
+                if someone_won[1]:
+                    game_won = True, someone_won[0]
 
 
 gamelib.init(main)

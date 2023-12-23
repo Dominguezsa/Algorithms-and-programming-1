@@ -1,7 +1,7 @@
 import time
 from SokobanGame.Model.game_logic import mover, juego_ganado
-from SokobanGame.Model.Constantes import BOX, WALL, GOAL, coords_int_str, COORDS_STR, BOX_WITH_GOAL, PLAYER_IN_GOAL
-from SokobanGame.ADTs.Stack import Stack
+from SokobanGame.Model.constants import BOX, WALL, GOAL, coords_int_str, COORDS_STR, BOX_WITH_GOAL, PLAYER_IN_GOAL
+from SokobanGame.ADTs.stack import Stack
 
 
 def buscar_solucion(estado_inicial):

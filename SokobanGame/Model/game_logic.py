@@ -1,4 +1,4 @@
-from SokobanGame.Model.Constantes import *
+from SokobanGame.Model.constants import *
 
 # funciones adicionales
 def copiar_grilla(grilla):
